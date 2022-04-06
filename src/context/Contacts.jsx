@@ -1,28 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { contactContext } from "./GeneralContext";
-import withComponent from "./withComponent";
 import * as actions from "../Reducers/actions";
-function Contacts({arrayButton, setPageNow, parcialContact}) {
-    const { allContacts, dispatch } = useContext(contactContext);
+import withComponent from "../context/withComponent"
+function Contacts({pagination, arrayBtn, setPageNow}) {
+  const { allContacts, dispatch } = useContext(contactContext);
   return (
     <>
-      {parcialContact.map((el) => {
+      {pagination.map((el) => {
         return (
-          <div>
-            {el.nameInput} {el.phone}
-            <button
-              onClick={() =>
-                dispatch({ type: actions.DELETECONTACT, payload: el.id })
-              }
-            >
-              Delete
-            </button>
+          <div className="eachContacts" key={el.id}>
+            {el.nameValue} {el.number}
+            <button className="deleteBtn" onClick={() => dispatch({type: actions.DELETECONTACT, payload: el.id})}>Delete</button>
           </div>
         );
       })}
       <div>
-        {arrayButton.map((page, index) => {
-          return <button key={page + index} onClick={() => setPageNow(index)}>{index}</button>;
+        {arrayBtn.map((el, index) => {
+          return <button className="btnPage" onClick={() => setPageNow(index)} key={index+el}>{index+1}</button>
         })}
       </div>
     </>
